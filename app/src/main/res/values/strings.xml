@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MethodTrack</string>
+    <string name="action_add">添加</string>
+    <string name="title_activity_tracked_edit">编辑</string>
+    <string name="action_delete">删除</string>
+    <string name="action_save">保存</string>
+</resources>

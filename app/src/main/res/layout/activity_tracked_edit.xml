@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TrackedEditActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@color/colorWhite"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <!-- 包名 -->
+            <TextView
+                android:id="@+id/tv_pkg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="包名"
+                app:layout_constraintBottom_toBottomOf="@id/actv_pkg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/actv_pkg" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_pkg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintLeft_toRightOf="@id/barrier"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="必填"/>
+
+            <!-- 类名 -->
+            <TextView
+                android:id="@+id/tv_cls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类名"
+                app:layout_constraintBottom_toBottomOf="@id/actv_cls"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/actv_cls" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_cls"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintLeft_toRightOf="@id/barrier"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actv_pkg"
+                android:hint="必填"/>
+
+            <!-- 方法名 -->
+            <TextView
+                android:id="@+id/tv_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方法名"
+                app:layout_constraintBottom_toBottomOf="@id/actv_method"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/actv_method" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_method"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                android:hint="可不填，则代表类的构造方法"
+                app:layout_constraintLeft_toRightOf="@id/barrier"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actv_cls" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="tv_pkg,tv_cls,tv_method"/>
+
+            <TextView
+                android:id="@+id/tv_param_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/actv_method"
+                android:text="参数类型"/>
+
+            <TextView
+                android:layout_marginLeft="4dp"
+                app:layout_constraintLeft_toRightOf="@id/tv_param_type"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_param_type"
+                app:layout_constraintBottom_toBottomOf="@id/tv_param_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="（不添加任何参数项表示只匹配方法名，即同名的所有方法将被纳入匹配）"
+                android:textSize="8sp"
+                android:textColor="@color/colorRed"
+                android:maxLines="1"/>
+
+            <LinearLayout
+                android:id="@+id/container_param_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_param_type"
+                app:layout_constraintBottom_toTopOf="@id/btn_add_param_type"
+                android:orientation="vertical"/>
+
+            <!-- 添加方法参数类型 -->
+            <Button
+                android:id="@+id/btn_add_param_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_param_types"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="添加方法参数"
+                android:textColor="@color/colorWhite"
+                android:drawableLeft="@drawable/ic_add_circle"
+                android:drawablePadding="6dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
