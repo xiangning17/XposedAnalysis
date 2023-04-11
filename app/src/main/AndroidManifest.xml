@@ -16,7 +16,7 @@
         <service
             android:name="com.xiangning.methodtrack.DemonService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <provider
             android:name="com.xiangning.methodtrack.TrackedProvider"

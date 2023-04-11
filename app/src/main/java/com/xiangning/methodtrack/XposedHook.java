@@ -1,7 +1,7 @@
 package com.xiangning.methodtrack;
 
-import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,14 +24,34 @@ public class XposedHook extends XC_MethodHook implements IXposedHookLoadPackage 
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
         super.afterHookedMethod(param);
-        Application application = (Application) param.thisObject;
-        setupMethodHook(application);
+//        Application application = (Application) param.thisObject;
+//        setupMethodHook(application);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-        XposedHelpers.findAndHookMethod("android.app.Application",
-            loadPackageParam.classLoader, "attach", Context.class, this);
+        Log.i(TAG, "handleLoadPackage: pkg = " + loadPackageParam.packageName + ", process = " + loadPackageParam.processName);
+        if (!"android".equals(loadPackageParam.packageName)) {
+            return;
+        }
+
+        XposedHelpers.findAndHookMethod(
+                "android.app.ContextImpl", loadPackageParam.classLoader,
+                "checkPermission",
+                String.class, int.class, int.class,
+                this
+        );
+
+//        XposedHelpers.findAndHookMethod("android.app.Application",
+//            loadPackageParam.classLoader, "attach", Context.class, this);
+    }
+
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        if ("android.permission.STATUS_BAR".equals(param.args[0])) {
+            Log.i(TAG, "grant status bar permission for uid: " + param.args[1]);
+            param.setResult(PackageManager.PERMISSION_GRANTED);
+        }
     }
 
     private void setupMethodHook(final Context context) {
